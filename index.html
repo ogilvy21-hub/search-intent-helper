@@ -1,0 +1,190 @@
+<div class="demo-wrap">
+  <section class="browser-mock">
+    <div class="chrome-top">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="address-bar">https://www.google.com/search?q=검색어</div>
+      <div class="extension-chip">Intent Helper ON</div>
+    </div>
+
+    <div class="search-page">
+      <div class="search-brand">Google / Naver</div>
+      <div class="search-box">
+        <input id="keywordInput" type="text" value="청년버팀목전세대출 조건" placeholder="네이버나 구글 검색창에 입력하는 키워드" />
+        <button id="analyzeBtn">검색</button>
+      </div>
+      <p class="guide-text">사용자가 검색창에 단어를 입력하면 확장프로그램이 검색 의도, 독자 욕구, 글 구성 방향을 즉시 보여주는 데모입니다.</p>
+    </div>
+
+    <div class="result-area">
+      <div class="result-card">
+        <span class="ad-label">검색 결과 예시</span>
+        <h3 id="fakeTitle1">청년버팀목전세대출 조건 총정리</h3>
+        <p id="fakeDesc1">검색자가 원하는 조건, 한도, 금리, 신청 절차 관련 정보가 노출되는 영역입니다.</p>
+      </div>
+      <div class="result-card">
+        <span class="ad-label">검색 결과 예시</span>
+        <h3 id="fakeTitle2">청년버팀목전세대출 신청 전 확인할 것</h3>
+        <p id="fakeDesc2">독자는 자신이 대상자인지, 얼마까지 받을 수 있는지, 어디서 신청하는지를 먼저 확인합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <aside class="intent-panel">
+    <div class="panel-header">
+      <div>
+        <p class="panel-kicker">SEARCH INTENT HELPER</p>
+        <h2 id="panelTitle">청년버팀목전세대출 조건</h2>
+      </div>
+      <button class="close-btn">×</button>
+    </div>
+
+    <div class="score-box">
+      <div>
+        <strong id="intentType">혜택·조건 확인형</strong>
+        <p>검색 의도 분류</p>
+      </div>
+      <div class="score-circle" id="scoreCircle">92</div>
+    </div>
+
+    <div class="info-card highlight">
+      <div class="icon">01</div>
+      <div>
+        <h3>검색자가 진짜 원하는 답</h3>
+        <p id="realNeed">내가 대출 대상자인지, 한도와 금리는 얼마인지, 실제 신청은 어디서 하는지 바로 알고 싶어합니다.</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="icon">02</div>
+      <div>
+        <h3>콘텐츠 첫 문단 방향</h3>
+        <p id="firstParagraph">조건부터 길게 설명하기보다 대상 여부, 최대 한도, 금리, 신청처를 먼저 요약해야 합니다.</p>
+      </div>
+    </div>
+
+    <div class="section-box">
+      <h3>추천 목차</h3>
+      <ol id="outlineList"></ol>
+    </div>
+
+    <div class="section-box">
+      <h3>제목 후보</h3>
+      <div class="title-list" id="titleList"></div>
+    </div>
+
+    <div class="section-box">
+      <h3>피해야 할 글쓰기</h3>
+      <p id="avoidText" class="avoid-text">제도 설명을 처음부터 길게 늘어놓으면 독자가 원하는 답에 늦게 도착합니다.</p>
+    </div>
+
+    <button class="copy-btn" id="copyBtn">프롬프트 복사하기</button>
+  </aside>
+</div>
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, sans-serif; background: #eef1f5; color: #1f2937; }
+  .demo-wrap { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) 420px; }
+  .browser-mock { padding: 26px; }
+  .chrome-top { height: 48px; display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 18px 18px 0 0; padding: 0 16px; box-shadow: 0 12px 35px rgba(15, 23, 42, .08); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+  .red { background: #ff5f57; }
+  .yellow { background: #ffbd2e; }
+  .green { background: #28c840; }
+  .address-bar { flex: 1; margin-left: 12px; background: #f3f4f6; border-radius: 999px; padding: 9px 14px; font-size: 13px; color: #6b7280; }
+  .extension-chip { background: #111827; color: #fff; padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+  .search-page { background: #111827; color: #fff; padding: 58px 42px 46px; }
+  .search-brand { font-size: 30px; font-weight: 900; letter-spacing: -.6px; margin-bottom: 24px; }
+  .search-box { max-width: 760px; display: flex; gap: 8px; background: #fff; border-radius: 999px; padding: 8px; }
+  .search-box input { flex: 1; border: 0; outline: 0; border-radius: 999px; padding: 15px 18px; font-size: 18px; color: #111827; }
+  .search-box button { border: 0; border-radius: 999px; padding: 0 26px; background: #2563eb; color: #fff; font-size: 15px; font-weight: 900; cursor: pointer; }
+  .guide-text { margin: 14px 0 0; color: #cbd5e1; line-height: 1.6; }
+  .result-area { min-height: 520px; background: #fff; border-radius: 0 0 18px 18px; padding: 30px 42px; box-shadow: 0 12px 35px rgba(15, 23, 42, .08); }
+  .result-card { max-width: 760px; border: 1px solid #e5e7eb; border-radius: 18px; padding: 22px; margin-bottom: 16px; background: #fff; }
+  .ad-label { display: inline-block; font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+  .result-card h3 { margin: 0 0 8px; color: #1d4ed8; font-size: 20px; }
+  .result-card p { margin: 0; color: #4b5563; line-height: 1.65; }
+  .intent-panel { height: 100vh; position: sticky; top: 0; overflow: auto; background: #fff; border-left: 1px solid #e5e7eb; padding: 24px; box-shadow: -16px 0 38px rgba(15, 23, 42, .09); }
+  .panel-header { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+  .panel-kicker { margin: 0 0 6px; color: #2563eb; font-size: 12px; font-weight: 900; letter-spacing: .5px; }
+  h2 { margin: 0; font-size: 23px; line-height: 1.35; letter-spacing: -.4px; }
+  .close-btn { width: 34px; height: 34px; border: 0; border-radius: 50%; background: #f3f4f6; font-size: 22px; cursor: pointer; }
+  .score-box { display: flex; align-items: center; justify-content: space-between; padding: 18px; border-radius: 20px; background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #bfdbfe; margin-bottom: 16px; }
+  .score-box strong { font-size: 18px; }
+  .score-box p { margin: 5px 0 0; color: #64748b; font-size: 13px; }
+  .score-circle { width: 58px; height: 58px; border-radius: 50%; background: #2563eb; color: #fff; display: grid; place-items: center; font-size: 20px; font-weight: 900; }
+  .info-card { display: flex; gap: 14px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 18px; margin-bottom: 14px; }
+  .info-card.highlight { background: #f8fbff; border-color: #bfdbfe; }
+  .icon { flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: #dbeafe; color: #1d4ed8; font-size: 12px; font-weight: 900; }
+  h3 { margin: 0 0 8px; font-size: 15px; }
+  .info-card p, .section-box p, .section-box li, .title-list p { margin: 0; color: #4b5563; font-size: 14px; line-height: 1.62; }
+  .section-box { margin-top: 16px; padding: 16px; background: #f8fafc; border-radius: 18px; }
+  ol { margin: 0; padding-left: 20px; }
+  li { margin: 7px 0; }
+  .title-list p { background: #fff; border: 1px solid #e5e7eb; border-radius: 13px; padding: 11px; margin-bottom: 8px; }
+  .avoid-text { background: #fff7ed; border: 1px solid #fed7aa; padding: 12px; border-radius: 13px; }
+  .copy-btn { width: 100%; margin-top: 18px; border: 0; border-radius: 15px; padding: 16px; background: #2563eb; color: #fff; font-weight: 900; cursor: pointer; }
+  @media (max-width: 980px) { .demo-wrap { grid-template-columns: 1fr; } .intent-panel { position: static; height: auto; border-left: 0; } }
+</style>
+
+<script>
+  const input = document.getElementById('keywordInput');
+  const btn = document.getElementById('analyzeBtn');
+  const panelTitle = document.getElementById('panelTitle');
+  const intentType = document.getElementById('intentType');
+  const scoreCircle = document.getElementById('scoreCircle');
+  const realNeed = document.getElementById('realNeed');
+  const firstParagraph = document.getElementById('firstParagraph');
+  const outlineList = document.getElementById('outlineList');
+  const titleList = document.getElementById('titleList');
+  const avoidText = document.getElementById('avoidText');
+  const fakeTitle1 = document.getElementById('fakeTitle1');
+  const fakeTitle2 = document.getElementById('fakeTitle2');
+  const fakeDesc1 = document.getElementById('fakeDesc1');
+  const fakeDesc2 = document.getElementById('fakeDesc2');
+  const copyBtn = document.getElementById('copyBtn');
+
+  const cases = [
+    { pattern: /신청|지원금|대출|조건|대상|사용처|환급|보조금|청년|장기안심주택/, type: '혜택·조건 확인형', score: 92, need: '내가 대상자인지, 받을 수 있는 금액은 얼마인지, 실제 신청은 어디서 하는지 바로 알고 싶어합니다.', first: '첫 문단에서 대상 여부, 금액, 신청 기간, 신청처를 한 번에 보여줘야 합니다.', outline: ['핵심 요약', '신청 대상', '지원 금액과 조건', '신청 방법', '필요 서류와 주의사항'], avoid: '제도 설명을 처음부터 길게 늘어놓으면 독자가 원하는 답에 늦게 도착합니다. 첫 화면에서 대상·금액·신청처를 바로 보여주는 편이 좋습니다.' },
+    { pattern: /맛집|위치|주소|근처|카페|병원|웨딩홀|축제|일정/, type: '장소·방문 확인형', score: 88, need: '방문할 만한 곳인지, 위치가 어디인지, 운영 시간과 비용은 어떤지 확인하고 싶어합니다.', first: '첫 문단에서 위치, 운영 시간, 핵심 특징, 방문 전 확인사항을 바로 정리해야 합니다.', outline: ['위치와 기본정보', '운영 시간과 비용', '방문 포인트', '주차·예약·대중교통', '방문 전 주의사항'], avoid: '감상 위주로 시작하면 실용 정보를 찾는 독자가 바로 이탈할 수 있습니다.' },
+    { pattern: /주가|전망|공모주|수요예측|상장|ETF|실적|목표가|적정주가/, type: '투자 판단형', score: 90, need: '지금 사도 되는지, 상승 이유가 무엇인지, 위험 요인은 무엇인지 판단하고 싶어합니다.', first: '첫 문단에서 현재 가격 이슈, 상승·하락 원인, 핵심 리스크를 숫자 중심으로 정리해야 합니다.', outline: ['현재 이슈 요약', '실적과 밸류에이션', '상승 요인', '리스크', '투자자가 볼 가격 구간'], avoid: '막연한 기대감이나 단정적인 매수 표현은 신뢰를 떨어뜨립니다. 수치와 근거를 먼저 보여줘야 합니다.' },
+    { pattern: /드라마|영화|출연진|몇부작|재방송|시청률|결말|OTT|예고/, type: '콘텐츠 정보 확인형', score: 86, need: '기본정보, 출연진, 줄거리, 공개 일정, 다시보기 여부를 빠르게 확인하고 싶어합니다.', first: '첫 문단에서 작품명, 공개일, 플랫폼, 출연진, 관전 포인트를 바로 보여줘야 합니다.', outline: ['기본정보', '출연진과 역할', '줄거리', '공개일·OTT·몇부작', '관전 포인트'], avoid: '줄거리만 길게 쓰면 검색자가 원하는 기본정보를 놓칠 수 있습니다.' }
+  ];
+
+  function pickCase(keyword) {
+    return cases.find(item => item.pattern.test(keyword)) || { type: '정보 탐색형', score: 80, need: '키워드의 뜻, 핵심 정보, 관련 내용을 한 번에 이해하고 싶어합니다.', first: '첫 문단에서 이 키워드의 의미와 독자가 가장 궁금해할 답을 바로 제시해야 합니다.', outline: ['핵심 요약', '기본 개념', '자주 묻는 질문', '비교 정보', '정리와 주의사항'], avoid: '배경 설명만 길게 이어가면 핵심 답을 찾는 독자가 글을 끝까지 읽기 어렵습니다.' };
+  }
+
+  function render() {
+    const keyword = input.value.trim() || '검색어';
+    const data = pickCase(keyword);
+    panelTitle.textContent = keyword;
+    intentType.textContent = data.type;
+    scoreCircle.textContent = data.score;
+    realNeed.textContent = data.need;
+    firstParagraph.textContent = data.first;
+    avoidText.textContent = data.avoid;
+    outlineList.innerHTML = data.outline.map(item => `<li>${item}</li>`).join('');
+    titleList.innerHTML = [`${keyword} 총정리`, `${keyword}, 검색자가 가장 궁금해하는 핵심 정보`, `${keyword} 확인 전 꼭 알아야 할 내용`].map(title => `<p>${title}</p>`).join('');
+    fakeTitle1.textContent = `${keyword} 총정리`;
+    fakeTitle2.textContent = `${keyword} 핵심 정보`; 
+    fakeDesc1.textContent = `${data.type} 키워드는 검색자가 원하는 답을 첫 화면에서 바로 확인할 수 있어야 합니다.`;
+    fakeDesc2.textContent = data.need;
+  }
+
+  btn.addEventListener('click', render);
+  input.addEventListener('input', render);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') render(); });
+  copyBtn.addEventListener('click', async () => {
+    const keyword = input.value.trim() || '검색어';
+    const text = `${keyword} 키워드의 검색 의도를 분석하고, 독자가 원하는 답·첫 문단 방향·추천 목차·제목 후보를 만들어줘.`;
+    try {
+      await navigator.clipboard.writeText(text);
+      copyBtn.textContent = '복사 완료';
+      setTimeout(() => copyBtn.textContent = '프롬프트 복사하기', 1200);
+    } catch (e) { copyBtn.textContent = '복사 실패'; }
+  });
+  render();
+</script>
